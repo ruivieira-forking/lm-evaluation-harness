@@ -68,6 +68,7 @@ ibm_watsonx_ai = ["ibm_watsonx_ai>=1.1.22", "python-dotenv"]
 ifeval = ["langdetect", "immutabledict", "nltk>=3.9.1"]
 ipex = ["optimum"]
 japanese_leaderboard = ["emoji==2.14.0", "neologdn==0.5.3", "fugashi[unidic-lite]", "rouge_score>=0.1.2"]
+llama_stack = ["llama-stack-client==0.1.9"]
 longbench=["jeiba", "fuzzywuzzy", "rouge"]
 mamba = ["mamba_ssm", "causal-conv1d==1.0.2"]
 math = ["sympy>=1.12", "antlr4-python3-runtime==4.11", "math_verify[antlr4_11_0]"]
@@ -96,6 +97,7 @@ all = [
     "lm_eval[ifeval]",
     "lm_eval[ipex]",
     "lm_eval[japanese_leaderboard]",
+    "lm_eval[llama_stack]",
     "lm_eval[longbench]",
     "lm_eval[mamba]",
     "lm_eval[math]",
