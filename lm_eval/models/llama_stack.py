@@ -263,7 +263,6 @@ class LlamaStackLLM(LM):
                     )["tokens"]
 
                     if len(context_enc) >= len(context_continuation_enc):
-                        # If tokenization is the same, return 0 logprob and True
                         result = (0.0, True)
                         results.append(result)
                         self.cache_hook.add_partial(
@@ -278,9 +277,7 @@ class LlamaStackLLM(LM):
                     context_response = self.client.inference.completion(
                         content=context,
                         model_id=self.model_id,
-                        sampling_params=StrategyTopKSamplingStrategy(
-                            type="top_k", top_k=1
-                        ),
+                        sampling_params=SamplingParams(strategy=StrategyGreedySamplingStrategy(type="greedy")),
                         logprobs=Logprobs(top_k=1),
                         extra_headers=self._get_headers(),
                     )
@@ -308,9 +305,7 @@ class LlamaStackLLM(LM):
                     full_response = self.client.inference.completion(
                         content=full_text,
                         model_id=self.model_id,
-                        sampling_params=StrategyTopKSamplingStrategy(
-                            type="top_k", top_k=1
-                        ),
+                        sampling_params=SamplingParams(strategy=StrategyGreedySamplingStrategy(type="greedy")),
                         logprobs=Logprobs(top_k=5),
                         extra_headers=self._get_headers(),
                     )
@@ -339,7 +334,7 @@ class LlamaStackLLM(LM):
                 response = self.client.inference.completion(
                     content=full_text,
                     model_id=self.model_id,
-                    sampling_params=StrategyTopKSamplingStrategy(type="top_k", top_k=1),
+                    sampling_params=SamplingParams(strategy=StrategyGreedySamplingStrategy(type="greedy")),
                     logprobs=Logprobs(top_k=5),
                     extra_headers=self._get_headers(),
                 )
@@ -376,10 +371,10 @@ class LlamaStackLLM(LM):
                 import traceback
 
                 eval_logger.error(f"Traceback: {traceback.format_exc()}")
-                # Return negative infinity and True on error
+
                 result = (float("-inf"), True)
                 results.append(result)
-                # We don't cache errors
+
 
         return results
 
@@ -404,7 +399,7 @@ class LlamaStackLLM(LM):
                 response = self.client.inference.completion(
                     content=text,
                     model_id=self.model_id,
-                    sampling_params=StrategyTopKSamplingStrategy(type="top_k", top_k=1),
+                    sampling_params=SamplingParams(StrategyGreedySamplingStrategy(type="greedy")),
                     logprobs=Logprobs(top_k=1),
                     extra_headers=self._get_headers(),
                 )
